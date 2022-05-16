@@ -1,11 +1,16 @@
 <?php
 
+/*
+ * This file is part of the PHPFlasher package.
+ * (c) Younes KHOUBZA <younes.khoubza@gmail.com>
+ */
+
 namespace Flasher\Laravel\Template;
 
-use Flasher\Prime\Template\EngineInterface;
+use Flasher\Prime\Template\TemplateEngineInterface;
 use Illuminate\View\Factory;
 
-final class BladeEngine implements EngineInterface
+final class BladeTemplateEngine implements TemplateEngineInterface
 {
     /**
      * @var Factory
