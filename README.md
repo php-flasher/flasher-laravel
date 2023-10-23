@@ -1,3 +1,5 @@
+Enhanced Laravel Flasher for Livewire 3
+
 <p align="center">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/php-flasher/art/main/php-flasher-github-dark.png">
