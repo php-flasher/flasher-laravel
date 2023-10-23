@@ -1,4 +1,4 @@
-Enhanced Laravel Flasher for Livewire 3
+<p align="center"> Enhanced Laravel Flasher for Livewire 3</p>
 
 <p align="center">
     <picture>
