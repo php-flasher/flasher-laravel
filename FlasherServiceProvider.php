@@ -39,8 +39,9 @@ use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Component;
-use Livewire\LivewireManager;
-use Livewire\Response;
+use Livewire\Livewire;
+use Livewire\Mechanisms\HandleComponents\ComponentContext;
+use function Livewire\store;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -204,8 +205,9 @@ final class FlasherServiceProvider extends ServiceProvider
     {
         /** @var \Illuminate\Translation\Translator $translator */
         $translator = $this->app->make('translator');
-        $translator->addNamespace('flasher', __DIR__.'/Translation/lang');
+        $translator->addNamespace('flasher', __DIR__ . '/Translation/lang');
     }
+
 
     /**
      * @return void
@@ -221,8 +223,9 @@ final class FlasherServiceProvider extends ServiceProvider
             return;
         }
 
-        $livewire->listen('component.dehydrate.subsequent', function (Component $component, Response $response) {
-            if (isset($response->effects['redirect'])) {
+
+        Livewire::listen('dehydrate', function (Component $component, ComponentContext $context) {
+            if (isset($context->effects['redirect'])) {
                 return;
             }
 
@@ -234,14 +237,16 @@ final class FlasherServiceProvider extends ServiceProvider
 
             if (\count($data['envelopes']) > 0) {
                 $data['context']['livewire'] = array(
-                    'id' => $component->id,
-                    'name' => $response->fingerprint['name'],
+                    'id' => $component->id(),
+                    'name' => $component->getName(),
                 );
 
-                $response->effects['dispatches'][] = array(
-                    'event' => 'flasher:render',
-                    'data' => $data,
-                );
+                $context->addEffect('dispatches', array(
+                    [
+                        'name' => 'flasher:render',
+                        'params' => $data,
+                    ]
+                ));
             }
         });
     }
