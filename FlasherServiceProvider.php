@@ -39,6 +39,7 @@ use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Component;
+use Livewire\LivewireManager;
 use Livewire\Livewire;
 use Livewire\Mechanisms\HandleComponents\ComponentContext;
 use function Livewire\store;
