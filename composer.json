@@ -1,5 +1,5 @@
 {
-    "name": "zsnakeee/flasher-laravel-livewire3",
+    "name": "php-flasher/php-flasher",
     "description": "PHPFlasher - A powerful & easy-to-use package for adding flash messages to Laravel or Symfony projects. Provides feedback to users, improves engagement & enhances user experience. Intuitive design for beginners & experienced developers. A reliable, flexible solution.",
     "license": "MIT",
     "type": "library",
@@ -34,31 +34,131 @@
             "role": "Developer"
         }
     ],
-    "homepage": "https://php-flasher.io",
     "require": {
-        "php": ">=5.3",
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ergebnis/composer-normalize": "^2.31",
+        "friendsofphp/php-cs-fixer": "^3.17",
+        "illuminate/routing": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0",
         "illuminate/support": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0",
-        "php-flasher/flasher": "^1.15.3"
+        "livewire/livewire": "^2.12.3",
+        "orchestra/testbench": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
+        "phpro/grumphp": "^1.16",
+        "phpstan/phpstan": "^1.10.16",
+        "phpunit/phpunit": "^10.2.1",
+        "symfony/config": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+        "symfony/console": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+        "symfony/dependency-injection": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+        "symfony/framework-bundle": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+        "symfony/http-kernel": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+        "symfony/translation": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+        "symfony/twig-bundle": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+        "symplify/monorepo-builder": "^11.2.3.72",
+        "vimeo/psalm": "^5.12"
+    },
+    "replace": {
+        "php-flasher/flasher": "self.version",
+        "php-flasher/flasher-cli": "self.version",
+        "php-flasher/flasher-cli-laravel": "self.version",
+        "php-flasher/flasher-cli-symfony": "self.version",
+        "php-flasher/flasher-laravel": "self.version",
+        "php-flasher/flasher-noty": "self.version",
+        "php-flasher/flasher-noty-laravel": "self.version",
+        "php-flasher/flasher-noty-symfony": "self.version",
+        "php-flasher/flasher-notyf": "self.version",
+        "php-flasher/flasher-notyf-laravel": "self.version",
+        "php-flasher/flasher-notyf-symfony": "self.version",
+        "php-flasher/flasher-pnotify": "self.version",
+        "php-flasher/flasher-pnotify-laravel": "self.version",
+        "php-flasher/flasher-pnotify-symfony": "self.version",
+        "php-flasher/flasher-sweetalert": "self.version",
+        "php-flasher/flasher-sweetalert-laravel": "self.version",
+        "php-flasher/flasher-sweetalert-symfony": "self.version",
+        "php-flasher/flasher-symfony": "self.version",
+        "php-flasher/flasher-toastr": "self.version",
+        "php-flasher/flasher-toastr-laravel": "self.version",
+        "php-flasher/flasher-toastr-symfony": "self.version"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Flasher\\Laravel\\": ""
+            "Flasher\\": "src/",
+            "Flasher\\Cli\\Laravel\\": "src/Cli/Laravel/",
+            "Flasher\\Cli\\Prime\\": "src/Cli/Prime/",
+            "Flasher\\Cli\\Symfony\\": "src/Cli/Symfony/",
+            "Flasher\\Laravel\\": "src/Laravel/",
+            "Flasher\\Noty\\Laravel\\": "src/Noty/Laravel/",
+            "Flasher\\Noty\\Prime\\": "src/Noty/Prime/",
+            "Flasher\\Noty\\Symfony\\": "src/Noty/Symfony/",
+            "Flasher\\Notyf\\Laravel\\": "src/Notyf/Laravel/",
+            "Flasher\\Notyf\\Prime\\": "src/Notyf/Prime/",
+            "Flasher\\Notyf\\Symfony\\": "src/Notyf/Symfony/",
+            "Flasher\\Pnotify\\Laravel\\": "src/Pnotify/Laravel/",
+            "Flasher\\Pnotify\\Prime\\": "src/Pnotify/Prime/",
+            "Flasher\\Pnotify\\Symfony\\": "src/Pnotify/Symfony/",
+            "Flasher\\Prime\\": "src/Prime/",
+            "Flasher\\SweetAlert\\Laravel\\": "src/SweetAlert/Laravel/",
+            "Flasher\\SweetAlert\\Prime\\": "src/SweetAlert/Prime/",
+            "Flasher\\SweetAlert\\Symfony\\": "src/SweetAlert/Symfony/",
+            "Flasher\\Symfony\\": "src/Symfony/",
+            "Flasher\\Toastr\\Laravel\\": "src/Toastr/Laravel/",
+            "Flasher\\Toastr\\Prime\\": "src/Toastr/Prime/",
+            "Flasher\\Toastr\\Symfony\\": "src/Toastr/Symfony/"
+        },
+        "files": [
+            "src/Cli/Prime/helpers.php",
+            "src/Noty/Prime/helpers.php",
+            "src/Notyf/Prime/helpers.php",
+            "src/Pnotify/Prime/helpers.php",
+            "src/Prime/helpers.php",
+            "src/SweetAlert/Prime/helpers.php",
+            "src/Toastr/Prime/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Flasher\\Tests\\": "tests/"
         }
     },
     "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "kylekatarnls/update-helper": true,
+            "phpro/grumphp": true
+        },
         "preferred-install": "dist",
         "sort-packages": true
     },
     "extra": {
         "laravel": {
             "aliases": {
-                "Flasher": "Flasher\\Laravel\\Facade\\Flasher"
+                "Flasher": "Flasher\\Laravel\\Facade\\Flasher",
+                "Noty": "Flasher\\Laravel\\Facade\\Flasher",
+                "Notyf": "Flasher\\Notyf\\Laravel\\Facade\\Notyf",
+                "Pnotify": "Flasher\\Pnotify\\Laravel\\Facade\\Pnotify",
+                "SweetAlert": "Flasher\\SweetAlert\\Laravel\\Facade\\SweetAlert",
+                "Toastr": "Flasher\\Toastr\\Laravel\\Facade\\Toastr"
             },
             "providers": [
-                "Flasher\\Laravel\\FlasherServiceProvider"
+                "Flasher\\Cli\\Laravel\\FlasherCliServiceProvider",
+                "Flasher\\Toastr\\Laravel\\FlasherToastrServiceProvider",
+                "Flasher\\Laravel\\FlasherServiceProvider",
+                "Flasher\\Noty\\Laravel\\FlasherNotyServiceProvider",
+                "Flasher\\Pnotify\\Laravel\\FlasherPnotifyServiceProvider",
+                "Flasher\\Notyf\\Laravel\\FlasherNotyfServiceProvider",
+                "Flasher\\SweetAlert\\Laravel\\FlasherSweetAlertServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "check-syntax": "test `find ./src -iname \"*.php\" | xargs -n1 -P6 php -l | grep -Fv \"No syntax errors\" | wc -l` -eq 0",
+        "lint": "git diff --staged | php ./vendor/bin/grumphp run",
+        "normalize-composer": "find src -name \"composer.json\" -exec composer normalize {} \\;",
+        "normalize-packs": "find packs -name \"composer.json\" -exec composer normalize {} \\;",
+        "validate-composer": "find src -name \"composer.json\" -exec composer validate --strict {} \\;"
     }
 }
