@@ -40,9 +40,8 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Component;
 use Livewire\LivewireManager;
-use Livewire\Livewire;
+use Livewire\Response;
 use Livewire\Mechanisms\HandleComponents\ComponentContext;
-use function Livewire\store;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -209,7 +208,6 @@ final class FlasherServiceProvider extends ServiceProvider
         $translator->addNamespace('flasher', __DIR__ . '/Translation/lang');
     }
 
-
     /**
      * @return void
      */
@@ -224,32 +222,59 @@ final class FlasherServiceProvider extends ServiceProvider
             return;
         }
 
+        //try for livewrie v2.x
+        try {
+            $livewire->listen('component.dehydrate.subsequent', function (Component $component, Response $response) {
+                if (isset($response->effects['redirect'])) {
+                    return;
+                }
 
-        Livewire::listen('dehydrate', function (Component $component, ComponentContext $context) {
-            if (isset($context->effects['redirect'])) {
-                return;
-            }
+                /** @var FlasherInterface $flasher */
+                $flasher = app('flasher');
 
-            /** @var FlasherInterface $flasher */
-            $flasher = app('flasher');
+                /** @var array{envelopes: Envelope[]} $data */
+                $data = $flasher->render(array(), 'array');
 
-            /** @var array{envelopes: Envelope[]} $data */
-            $data = $flasher->render(array(), 'array');
+                if (\count($data['envelopes']) > 0) {
+                    $data['context']['livewire'] = array(
+                        'id' => $component->id,
+                        'name' => $response->fingerprint['name'],
+                    );
 
-            if (\count($data['envelopes']) > 0) {
-                $data['context']['livewire'] = array(
-                    'id' => $component->id(),
-                    'name' => $component->getName(),
-                );
+                    $response->effects['dispatches'][] = array(
+                        'event' => 'flasher:render',
+                        'data' => $data,
+                    );
+                }
+            });
+        } catch (Exception $e) {
+        } finally { //if catched error try for livewire v3.x
+            $livewire->listen('dehydrate', function (Component $component, ComponentContext $context) {
+                if (isset($response->effects['redirect'])) {
+                    return;
+                }
 
-                $context->addEffect('dispatches', array(
-                    [
+                /** @var FlasherInterface $flasher */
+                $flasher = app('flasher');
+
+                /** @var array{envelopes: Envelope[]} $data */
+                $data = $flasher->render(array(), 'array');
+
+                if (\count($data['envelopes']) > 0) {
+                    $data['context']['livewire'] = array(
+                        'id' => $component->id(),
+                        'name' => $component->getName(),
+                    );
+
+                    $context->addEffect('dispatches', array([
                         'name' => 'flasher:render',
                         'params' => $data,
-                    ]
-                ));
-            }
-        });
+                    ]));
+                }
+            });
+        }
+
+
     }
 
     /**
